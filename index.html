@@ -3,117 +3,229 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Utilidades Web | El Rincón de las Esquinas</title>
+    <title>El Rincón de las Esquinas - Sitio Oficial</title>
     <style>
+        :root {
+            --bg-main: #0f172a;
+            --bg-card: #1e293b;
+            --accent: #38bdf8;
+            --accent-hover: #0ea5e9;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #475569;
+        }
         body {
-            background-color: #0f172a;
-            color: #f8fafc;
-            font-family: Arial, sans-serif;
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            min-height: 100vh;
         }
-        .container {
+        header {
             width: 100%;
-            max-width: 600px;
-            background: #1e293b;
+            background-color: var(--bg-card);
+            padding: 15px 0;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        header h1 {
+            margin: 0;
+            font-size: 1.4rem;
+            color: var(--accent);
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        nav button {
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            font-weight: bold;
+            cursor: pointer;
+            padding: 5px 10px;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        nav button.active, nav button:hover {
+            color: var(--accent);
+            border-bottom: 2px solid var(--accent);
+        }
+        .main-container {
+            width: 100%;
+            max-width: 650px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .section-view {
+            display: none;
+        }
+        .section-view.active {
+            display: block;
+        }
+        .card {
+            background: var(--bg-card);
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
             margin-bottom: 20px;
+            border: 1px solid rgba(255,255,255,0.05);
         }
-        h1, h2 {
-            text-align: center;
-            color: #38bdf8;
+        .card h2 {
+            font-size: 1.2rem;
+            color: var(--accent);
+            margin-top: 0;
+            margin-bottom: 15px;
         }
-        h1 { font-size: 1.5rem; }
-        h2 { font-size: 1.2rem; margin-top: 0; }
         label {
             display: block;
-            margin-top: 15px;
+            margin-top: 12px;
             font-weight: bold;
+            font-size: 0.9rem;
         }
         textarea, input[type="text"] {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
-            background: #0f172a;
-            border: 1px solid #475569;
-            color: #fff;
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-main);
             border-radius: 6px;
             box-sizing: border-box;
+            font-size: 0.95rem;
         }
         .output {
-            background: #0f172a;
-            border: 1px dashed #38bdf8;
+            background: var(--bg-main);
+            border: 1px dashed var(--accent);
             padding: 10px;
             margin-top: 5px;
             border-radius: 6px;
             word-break: break-all;
             min-height: 30px;
-            color: #38bdf8;
+            color: var(--accent);
+            font-family: monospace;
         }
-        button {
-            background-color: #38bdf8;
-            color: #0f172a;
+        .btn-action {
+            background-color: var(--accent);
+            color: var(--bg-main);
             border: none;
             padding: 10px 15px;
-            margin-top: 10px;
+            margin-top: 12px;
             border-radius: 6px;
             font-weight: bold;
             cursor: pointer;
             width: 100%;
+            transition: background-color 0.2s;
         }
-        button:hover {
-            background-color: #0ea5e9;
+        .btn-action:hover {
+            background-color: var(--accent-hover);
         }
         .stats {
             display: flex;
             justify-content: space-between;
             margin-top: 8px;
-            font-size: 0.9rem;
-            color: #94a3b8;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+        footer {
+            margin-top: auto;
+            padding: 15px;
+            text-align: center;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border);
+            width: 100%;
         }
     </style>
 </head>
 <body>
 
-    <!-- Herramienta 1: Binario y Morse -->
-    <div class="container">
-        <h1>Convertidor: Binario y Morse</h1>
-        
-        <label for="inputText">Escribe tu texto:</label>
-        <textarea id="inputText" rows="3" placeholder="Escribe algo aquí..." oninput="convertirTodo()"></textarea>
+    <header>
+        <h1>El Rincón de las Esquinas</h1>
+        <nav>
+            <button id="nav-tools" class="active" onclick="switchTab('tools')">Herramientas</button>
+            <button id="nav-about" onclick="switchTab('about')">Sobre el Proyecto</button>
+        </nav>
+    </header>
 
-        <label>Resultado en Binario:</label>
-        <div id="binaryOutput" class="output"></div>
+    <div class="main-container">
 
-        <label>Resultado en Código Morse:</label>
-        <div id="morseOutput" class="output"></div>
-    </div>
+        <!-- VISTA 1: HERRAMIENTAS -->
+        <div id="view-tools" class="section-view active">
+            
+            <!-- Conversor Binario / Morse -->
+            <div class="card">
+                <h2>Conversor: Binario y Morse</h2>
+                <label for="inputText">Escribe tu texto:</label>
+                <textarea id="inputText" rows="2" placeholder="Escribe algo..." oninput="convertirTodo()"></textarea>
 
-    <!-- Herramienta 2: Contador de Palabras -->
-    <div class="container">
-        <h2>Contador de Texto</h2>
-        <label for="counterText">Escribe un párrafo:</label>
-        <textarea id="counterText" rows="3" placeholder="Escribe para contar palabras..." oninput="contarTexto()"></textarea>
-        <div class="stats">
-            <span id="wordCount">Palabras: 0</span>
-            <span id="charCount">Caracteres: 0</span>
+                <label>Binario:</label>
+                <div id="binaryOutput" class="output"></div>
+
+                <label>Código Morse:</label>
+                <div id="morseOutput" class="output"></div>
+            </div>
+
+            <!-- Contador de Texto -->
+            <div class="card">
+                <h2>Contador de Texto</h2>
+                <label for="counterText">Párrafo de análisis:</label>
+                <textarea id="counterText" rows="2" placeholder="Escribe para contar..." oninput="contarTexto()"></textarea>
+                <div class="stats">
+                    <span id="wordCount">Palabras: 0</span>
+                    <span id="charCount">Caracteres: 0</span>
+                </div>
+            </div>
+
+            <!-- Generador de Contraseñas -->
+            <div class="card">
+                <h2>Generador de Contraseñas</h2>
+                <button class="btn-action" onclick="generarPassword()">Generar Contraseña Segura</button>
+                <label>Resultado:</label>
+                <div id="passwordOutput" class="output">Haz clic en el botón</div>
+            </div>
+
         </div>
+
+        <!-- VISTA 2: SOBRE EL PROYECTO -->
+        <div id="view-about" class="section-view">
+            <div class="card">
+                <h2>Acerca de esta iniciativa</h2>
+                <p>Este espacio digital forma parte de <strong>El Rincón de las Esquinas</strong>, un proyecto enfocado en la construcción de páginas web, aprendizaje de tecnología, programación y la compartición de ideas útiles.</p>
+                <p>Desarrollado y optimizado directamente mediante herramientas modernas y despliegue continuo en la nube.</p>
+            </div>
+        </div>
+
     </div>
 
-    <!-- Herramienta 3: Generador de Contraseñas -->
-    <div class="container">
-        <h2>Generador de Contraseñas Seguras</h2>
-        <button onclick="generarPassword()">Generar Contraseña</button>
-        <label>Contraseña sugerida:</label>
-        <div id="passwordOutput" class="output">Haz clic en el botón</div>
-    </div>
+    <footer>
+        &copy; 2026 El Rincón de las Esquinas. Todos los derechos reservados.
+    </footer>
 
     <script>
+        // Control de pestañas (Navegación)
+        function switchTab(tab) {
+            document.getElementById('view-tools').classList.remove('active');
+            document.getElementById('view-about').classList.remove('active');
+            document.getElementById('nav-tools').classList.remove('active');
+            document.getElementById('nav-about').classList.remove('active');
+
+            if (tab === 'tools') {
+                document.getElementById('view-tools').classList.add('active');
+                document.getElementById('nav-tools').classList.add('active');
+            } else if (tab === 'about') {
+                document.getElementById('view-about').classList.add('active');
+                document.getElementById('nav-about').classList.add('active');
+            }
+        }
+
         // Lógica de Binario y Morse
         const morseCodeMap = {
             'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
@@ -168,8 +280,5 @@
     </script>
 
 </body>
-</html>
-
-
-</body>
-</html>
+    </html>
+    
