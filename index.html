@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convertidor Binario y Morse | El Rincón de las Esquinas</title>
+    <title>Utilidades Web | El Rincón de las Esquinas</title>
     <style>
         body {
             background-color: #0f172a;
@@ -22,12 +22,14 @@
             padding: 20px;
             border-radius: 12px;
             box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+            margin-bottom: 20px;
         }
-        h1 {
+        h1, h2 {
             text-align: center;
             color: #38bdf8;
-            font-size: 1.5rem;
         }
+        h1 { font-size: 1.5rem; }
+        h2 { font-size: 1.2rem; margin-top: 0; }
         label {
             display: block;
             margin-top: 15px;
@@ -50,15 +52,37 @@
             margin-top: 5px;
             border-radius: 6px;
             word-break: break-all;
-            min-height: 40px;
+            min-height: 30px;
             color: #38bdf8;
+        }
+        button {
+            background-color: #38bdf8;
+            color: #0f172a;
+            border: none;
+            padding: 10px 15px;
+            margin-top: 10px;
+            border-radius: 6px;
+            font-weight: bold;
+            cursor: pointer;
+            width: 100%;
+        }
+        button:hover {
+            background-color: #0ea5e9;
+        }
+        .stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #94a3b8;
         }
     </style>
 </head>
 <body>
 
+    <!-- Herramienta 1: Binario y Morse -->
     <div class="container">
-        <h1>Utilidades: Binario y Morse</h1>
+        <h1>Convertidor: Binario y Morse</h1>
         
         <label for="inputText">Escribe tu texto:</label>
         <textarea id="inputText" rows="3" placeholder="Escribe algo aquí..." oninput="convertirTodo()"></textarea>
@@ -70,7 +94,27 @@
         <div id="morseOutput" class="output"></div>
     </div>
 
+    <!-- Herramienta 2: Contador de Palabras -->
+    <div class="container">
+        <h2>Contador de Texto</h2>
+        <label for="counterText">Escribe un párrafo:</label>
+        <textarea id="counterText" rows="3" placeholder="Escribe para contar palabras..." oninput="contarTexto()"></textarea>
+        <div class="stats">
+            <span id="wordCount">Palabras: 0</span>
+            <span id="charCount">Caracteres: 0</span>
+        </div>
+    </div>
+
+    <!-- Herramienta 3: Generador de Contraseñas -->
+    <div class="container">
+        <h2>Generador de Contraseñas Seguras</h2>
+        <button onclick="generarPassword()">Generar Contraseña</button>
+        <label>Contraseña sugerida:</label>
+        <div id="passwordOutput" class="output">Haz clic en el botón</div>
+    </div>
+
     <script>
+        // Lógica de Binario y Morse
         const morseCodeMap = {
             'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
             'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
@@ -83,15 +127,12 @@
 
         function convertirTodo() {
             let texto = document.getElementById('inputText').value;
-            
-            // Conversión a Binario
             let binario = '';
             for (let i = 0; i < texto.length; i++) {
                 binario += texto[i].charCodeAt(0).toString(2).padStart(8, '0') + ' ';
             }
             document.getElementById('binaryOutput').innerText = binario.trim();
 
-            // Conversión a Morse
             let morse = '';
             let upperText = texto.toUpperCase();
             for (let i = 0; i < upperText.length; i++) {
@@ -104,7 +145,31 @@
             }
             document.getElementById('morseOutput').innerText = morse.trim();
         }
+
+        // Lógica de Contador de Palabras
+        function contarTexto() {
+            let texto = document.getElementById('counterText').value.trim();
+            let caracteres = texto.length;
+            let palabras = texto === '' ? 0 : texto.split(/\s+/).length;
+            
+            document.getElementById('wordCount').innerText = `Palabras: ${palabras}`;
+            document.getElementById('charCount').innerText = `Caracteres: ${caracteres}`;
+        }
+
+        // Lógica de Generador de Contraseñas
+        function generarPassword() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!";
+            let password = "";
+            for (let i = 0; i < 12; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            document.getElementById('passwordOutput').innerText = password;
+        }
     </script>
+
+</body>
+</html>
+
 
 </body>
 </html>
