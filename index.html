@@ -3,42 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DeMartZ | Proyectos y Tecnología</title>
+    <title>Convertidor Binario y Morse | El Rincón de las Esquinas</title>
     <style>
         body {
-            background-color: #0d1117;
-            color: #c9d1d9;
+            background-color: #0f172a;
+            color: #f8fafc;
             font-family: Arial, sans-serif;
-            text-align: center;
-            padding: 50px 20px;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: #1e293b;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
         }
         h1 {
-            color: #58a6ff;
+            text-align: center;
+            color: #38bdf8;
+            font-size: 1.5rem;
         }
-        .card {
-            background-color: #161b22;
-            border: 1px solid #30363d;
-            border-radius: 8px;
-            padding: 20px;
-            max-width: 400px;
-            margin: 20px auto;
+        label {
+            display: block;
+            margin-top: 15px;
+            font-weight: bold;
         }
-        a {
-            color: #58a6ff;
-            text-decoration: none;
+        textarea, input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            background: #0f172a;
+            border: 1px solid #475569;
+            color: #fff;
+            border-radius: 6px;
+            box-sizing: border-box;
+        }
+        .output {
+            background: #0f172a;
+            border: 1px dashed #38bdf8;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 6px;
+            word-break: break-all;
+            min-height: 40px;
+            color: #38bdf8;
         }
     </style>
 </head>
 <body>
-    <h1>DeMartZ</h1>
-    <p>Bienvenido al portal oficial de tecnología, desarrollo y proyectos digitales.</p>
 
-    <div class="card">
-        <h3>🚀 Herramientas Activas</h3>
-        <p>Desarrollo de software, automatización en Termux y herramientas de seguridad informática.</p>
+    <div class="container">
+        <h1>Utilidades: Binario y Morse</h1>
+        
+        <label for="inputText">Escribe tu texto:</label>
+        <textarea id="inputText" rows="3" placeholder="Escribe algo aquí..." oninput="convertirTodo()"></textarea>
+
+        <label>Resultado en Binario:</label>
+        <div id="binaryOutput" class="output"></div>
+
+        <label>Resultado en Código Morse:</label>
+        <div id="morseOutput" class="output"></div>
     </div>
 
-    <p style="margin-top: 40px; font-size: 14px; color: #8b949e;">&copy; 2026 DeMartZ. Todos los derechos reservados.</p>
+    <script>
+        const morseCodeMap = {
+            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
+            'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
+            'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
+            'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
+            'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
+            '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
+            '8': '---..', '9': '----.', ' ': '/'
+        };
+
+        function convertirTodo() {
+            let texto = document.getElementById('inputText').value;
+            
+            // Conversión a Binario
+            let binario = '';
+            for (let i = 0; i < texto.length; i++) {
+                binario += texto[i].charCodeAt(0).toString(2).padStart(8, '0') + ' ';
+            }
+            document.getElementById('binaryOutput').innerText = binario.trim();
+
+            // Conversión a Morse
+            let morse = '';
+            let upperText = texto.toUpperCase();
+            for (let i = 0; i < upperText.length; i++) {
+                let char = upperText[i];
+                if (morseCodeMap[char]) {
+                    morse += morseCodeMap[char] + ' ';
+                } else {
+                    morse += char + ' ';
+                }
+            }
+            document.getElementById('morseOutput').innerText = morse.trim();
+        }
+    </script>
+
 </body>
 </html>
-
