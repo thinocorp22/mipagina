@@ -1,502 +1,362 @@
 <!DOCTYPE html>
-<html lang="es" data-theme="dark">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>El Rincón de las Esquinas - Sitio Oficial</title>
+    <title>El Rincón de las Esquinas | José Martínez Hernández</title>
     <style>
-        /* Definición de Temas (Oscuro y Claro) */
-        :root[data-theme="dark"] {
-            --bg-main: #0f172a;
-            --bg-card: #1e293b;
+        :root {
+            --bg-color: #0b0f19;
+            --card-bg: #131c2e;
+            --text-main: #f0f6fc;
+            --text-muted: #8b949e;
             --accent: #38bdf8;
             --accent-hover: #0ea5e9;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --border: #475569;
-        }
-        :root[data-theme="light"] {
-            --bg-main: #f1f5f9;
-            --bg-card: #ffffff;
-            --accent: #0284c7;
-            --accent-hover: #0369a1;
-            --text-main: #0f172a;
-            --text-muted: #64748b;
-            --border: #cbd5e1;
+            --border: #30363d;
         }
 
         body {
-            background-color: var(--bg-main);
+            background-color: var(--bg-color);
             color: var(--text-main);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             margin: 0;
             padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.6;
+            scroll-behavior: smooth;
         }
-        header {
+
+        /* Barra de Navegación Fija */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            background-color: var(--bg-card);
-            padding: 15px 20px;
+            background-color: rgba(19, 28, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border);
             display: flex;
             justify-content: space-between;
             align-items: center;
-            border-bottom: 1px solid var(--border);
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            padding: 0.8rem 1.5rem;
             box-sizing: border-box;
-            transition: background-color 0.3s;
+            z-index: 1000;
         }
-        header h1 {
-            margin: 0;
-            font-size: 1.2rem;
-            color: var(--accent);
-        }
-        .header-right {
-            display: flex;
-            gap: 10px;
-            align-items: center;
-        }
-        nav button, .theme-btn {
-            background: transparent;
-            border: none;
-            color: var(--text-muted);
+
+        nav .logo {
             font-weight: bold;
-            cursor: pointer;
-            padding: 5px 8px;
+            color: var(--accent);
+            font-size: 1rem;
+        }
+
+        nav .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 1rem;
             font-size: 0.9rem;
             transition: color 0.2s;
         }
-        nav button.active, nav button:hover, .theme-btn:hover {
+
+        nav .nav-links a:hover {
             color: var(--accent);
         }
-        nav button.active {
-            border-bottom: 2px solid var(--accent);
+
+        /* Cabecera Principal */
+        header {
+            background: linear-gradient(rgba(11, 15, 25, 0.8), rgba(11, 15, 25, 0.9)), 
+                        url('https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&w=1200&q=80') center/cover;
+            padding: 7rem 1rem 4rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border);
         }
-        .theme-btn {
-            background-color: var(--bg-main);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 6px 10px;
+
+        header h1 {
+            font-size: 2.2rem;
+            color: var(--accent);
+            margin: 0;
+            text-shadow: 0 2px 10px rgba(56, 189, 248, 0.3);
+        }
+
+        header .author {
             color: var(--text-main);
-            font-size: 0.8rem;
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin-top: 0.5rem;
         }
-        .main-container {
-            width: 100%;
-            max-width: 650px;
-            padding: 20px;
-            box-sizing: border-box;
+
+        header p {
+            color: var(--text-muted);
+            font-size: 1rem;
+            margin-top: 0.3rem;
         }
-        .section-view {
-            display: none;
+
+        /* Contenedor General */
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding: 3rem 1rem;
         }
-        .section-view.active {
-            display: block;
+
+        /* Secciones y Cuadrícula de Tarjetas */
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--accent);
+            border-bottom: 2px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1.5rem;
         }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
         .card {
-            background: var(--bg-card);
-            padding: 20px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
             border-radius: 12px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.15);
-            margin-bottom: 20px;
-            border: 1px solid var(--border);
-            transition: background-color 0.3s, border-color 0.3s;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-        .card h2 {
-            font-size: 1.1rem;
-            color: var(--accent);
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(56, 189, 248, 0.15);
+        }
+
+        .card img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+        }
+
+        .card-content {
+            padding: 1.5rem;
+        }
+
+        .card-content h3 {
             margin-top: 0;
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-top: 12px;
-            font-weight: bold;
-            font-size: 0.85rem;
-        }
-        textarea, input[type="text"] {
-            width: 100%;
-            padding: 10px;
-            margin-top: 5px;
-            background: var(--bg-main);
-            border: 1px solid var(--border);
             color: var(--text-main);
-            border-radius: 6px;
-            box-sizing: border-box;
-            font-size: 0.9rem;
-            transition: background-color 0.3s, color 0.3s;
+            font-size: 1.2rem;
         }
-        .output {
-            background: var(--bg-main);
-            border: 1px dashed var(--accent);
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 6px;
-            word-break: break-all;
-            min-height: 25px;
+
+        .card-content p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Habilidades (Tech Stack) */
+        .skills-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-bottom: 3rem;
+        }
+
+        .skill-badge {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border);
             color: var(--accent);
-            font-family: monospace;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
             font-size: 0.9rem;
+            font-weight: 500;
         }
-        .btn-action {
+
+        .btn {
+            display: inline-block;
             background-color: var(--accent);
-            color: var(--bg-main);
-            border: none;
-            padding: 10px 15px;
-            margin-top: 12px;
+            color: #0b0f19;
+            padding: 0.5rem 1rem;
             border-radius: 6px;
+            text-decoration: none;
             font-weight: bold;
-            cursor: pointer;
-            width: 100%;
+            font-size: 0.9rem;
             transition: background-color 0.2s;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
         }
-        .btn-action:hover {
+
+        .btn:hover {
             background-color: var(--accent-hover);
         }
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-        }
+
+        /* Pie de página */
         footer {
-            margin-top: auto;
-            padding: 15px;
             text-align: center;
-            font-size: 0.75rem;
-            color: var(--text-muted);
+            padding: 2rem;
+            background-color: var(--card-bg);
             border-top: 1px solid var(--border);
-            width: 100%;
-            background-color: var(--bg-card);
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        #reloj {
+            color: var(--accent);
+            font-weight: bold;
+            margin-top: 0.5rem;
         }
     </style>
 </head>
 <body>
 
-    <header>
-        <h1>El Rincón de las Esquinas</h1>
-        <div class="header-right">
-            <nav style="display: flex; gap: 10px;">
-                <button id="nav-tools" class="active" onclick="switchTab('tools')">Utilidades</button>
-                <button id="nav-about" onclick="switchTab('about')">Info</button>
-            </nav>
-            <button class="theme-btn" onclick="toggleTheme()">☀️ / 🌙</button>
+    <!-- Barra de Navegación Fija -->
+    <nav>
+        <div class="logo">El Rincón de las Esquinas</div>
+        <div class="nav-links">
+            <a href="#inicio">Inicio</a>
+            <a href="#herramientas">Herramientas</a>
+            <a href="#habilidades">Habilidades</a>
+            <a href="#contacto">Contacto</a>
         </div>
+    </nav>
+
+    <!-- Cabecera Principal -->
+    <header id="inicio">
+        <h1>El Rincón de las Esquinas</h1>
+        <div class="author">Creado por José Martínez Hernández</div>
+        <p id="saludo-dinamico">Cargando saludo...</p>
+        <div id="reloj">--:--:--</div>
     </header>
 
-    <div class="main-container">
-
-        <!-- VISTA DE HERRAMIENTAS -->
-        <div id="view-tools" class="section-view active">
-            
-            <div class="card">
-                <h2>Conversor: Binario y Morse</h2>
-                <label for="inputText">Escribe tu texto:</label>
-                <textarea id="inputText" rows="2" placeholder="Escribe algo..." oninput="convertirTodo()"></textarea>
-
-                <label>Binario:</label>
-                <div id="binaryOutput" class="output"></div>
-
-                <label>Código Morse:</label>
-                <div id="morseOutput" class="output"></div>
+    <main class="container">
+        
+        <!-- Sobre el Proyecto -->
+        <h2 class="section-title">Sobre el Proyecto</h2>
+        <div class="card" style="margin-bottom: 3rem;">
+            <div class="card-content">
+                <p>Bienvenido a este espacio digital en constante evolución. Aquí combinamos la pasión por la programación, la terminal, el análisis de sistemas y la construcción de herramientas web funcionales desde cero orientadas hacia la ingeniería.</p>
             </div>
+        </div>
 
+        <!-- Herramientas y Scripts -->
+        <h2 id="herramientas" class="section-title">Colección de Herramientas (Gists)</h2>
+        <div class="grid">
+            
+            <!-- Script 1 -->
             <div class="card">
-                <h2>Contador de Texto</h2>
-                <label for="counterText">Párrafo de análisis:</label>
-                <textarea id="counterText" rows="2" placeholder="Escribe para contar..." oninput="contarTexto()"></textarea>
-                <div class="stats">
-                    <span id="wordCount">Palabras: 0</span>
-                    <span id="charCount">Caracteres: 0</span>
+                <img src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&fit=crop&w=600&q=80" alt="Ciberseguridad">
+                <div class="card-content">
+                    <h3>Auditoría de Seguridad</h3>
+                    <p>Scripts en Python para cálculo de entropía, contraseñas seguras y hashes SHA-256.</p>
+                    <a href="https://gist.github.com/thinocorp22" class="btn" target="_blank">Ver Gist</a>
                 </div>
             </div>
 
+            <!-- Script 2 -->
             <div class="card">
-                <h2>Generador de Contraseñas</h2>
-                <button class="btn-action" onclick="generarPassword()">Generar Contraseña Segura</button>
-                <label>Resultado:</label>
-                <div id="passwordOutput" class="output">Haz clic en el botón</div>
+                <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?auto=format&fit=crop&w=600&q=80" alt="Redes">
+                <div class="card-content">
+                    <h3>Diagnóstico de Red</h3>
+                    <p>Utilidades de red para resolución de DNS, IP pública y verificación de puertos.</p>
+                    <a href="https://gist.github.com/thinocorp22" class="btn" target="_blank">Ver Gist</a>
+                </div>
+            </div>
+
+            <!-- Script 3 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=600&q=80" alt="Sistema">
+                <div class="card-content">
+                    <h3>Monitoreo del Sistema</h3>
+                    <p>Monitoreo de almacenamiento local, características del hardware y exploración de directorios.</p>
+                    <a href="https://gist.github.com/thinocorp22" class="btn" target="_blank">Ver Gist</a>
+                </div>
+            </div>
+
+            <!-- Script 4 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1526379095098-d400fd0bf935?auto=format&fit=crop&w=600&q=80" alt="Conversor">
+                <div class="card-content">
+                    <h3>Codificador Binario y Morse</h3>
+                    <p>Herramienta lógica para traducir texto plano a representación binaria y código Morse.</p>
+                    <a href="https://gist.github.com/thinocorp22" class="btn" target="_blank">Ver Gist</a>
+                </div>
+            </div>
+
+            <!-- Script 5 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?auto=format&fit=crop&w=600&q=80" alt="Tareas">
+                <div class="card-content">
+                    <h3>Gestor de Tareas CLI</h3>
+                    <p>Administrador local de tareas y pendientes mediante archivos JSON ejecutado en terminal.</p>
+                    <a href="https://gist.github.com/thinocorp22" class="btn" target="_blank">Ver Gist</a>
+                </div>
+            </div>
+
+            <!-- Script 6 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1597852074816-d933c7d2b988?auto=format&fit=crop&w=600&q=80" alt="Almacenamiento">
+                <div class="card-content">
+                    <h3>Conversor de Almacenamiento</h3>
+                    <p>Utilidad matemática para convertir con precisión Bytes a KB, MB, GB y TB.</p>
+                    <a href="https://gist.github.com/thinocorp22" class="btn" target="_blank">Ver Gist</a>
+                </div>
+            </div>
+
+            <!-- Script 7 -->
+            <div class="card">
+                <img src="https://images.unsplash.com/photo-1563986768609-322da13575f3?auto=format&fit=crop&w=600&q=80" alt="Enlaces">
+                <div class="card-content">
+                    <h3>Analizador de Enlaces (URLs)</h3>
+                    <p>Gestor y formateador de enlaces web para estructuración rápida de contenido.</p>
+                    <a href="https://gist.github.com/thinocorp22" class="btn" target="_blank">Ver Gist</a>
+                </div>
             </div>
 
         </div>
 
-        <!-- VISTA DE INFORMACIÓN -->
-        <div id="view-about" class="section-view">
-            <div class="card">
-                <h2>Acerca del Proyecto</h2>
-                <p>Plataforma interactiva de herramientas web desarrollada con HTML, CSS avanzado y JavaScript moderno.</p>
-                <p>Diseñada con un enfoque adaptable (Responsive) y selector dinámico de temas visuales.</p>
+        <!-- Habilidades / Tech Stack -->
+        <h2 id="habilidades" class="section-title">Habilidades y Tecnologías</h2>
+        <div class="skills-grid">
+            <div class="skill-badge">Python</div>
+            <div class="skill-badge">HTML5 & CSS3</div>
+            <div class="skill-badge">Linux / Termux</div>
+            <div class="skill-badge">Git & GitHub Gist</div>
+            <div class="skill-badge">Ciberseguridad Básica</div>
+            <div class="skill-badge">Redes y Sockets</div>
+        </div>
+
+        <!-- Contacto -->
+        <h2 id="contacto" class="section-title">Contacto y Enlaces</h2>
+        <div class="card">
+            <div class="card-content">
+                <p>¿Quieres explorar más sobre mis proyectos o conectar conmigo? Visita mis perfiles oficiales en la nube.</p>
+                <a href="https://github.com/thinocorp22" class="btn" target="_blank">Perfil de GitHub</a>
+                <a href="https://gist.github.com/thinocorp22" class="btn" target="_blank">Ver Gists Públicos</a>
             </div>
         </div>
 
-    </div>
+    </main>
 
     <footer>
-        &copy; 2026 El Rincón de las Esquinas.
+        <p>&copy; 2026 José Martínez Hernández - El Rincón de las Esquinas. Todos los derechos reservados.</p>
     </footer>
 
+    <!-- Script de JavaScript Interactivo -->
     <script>
-        // Cambiar entre Modo Oscuro y Claro
-        function toggleTheme() {
-            const html = document.documentElement;
-            const currentTheme = html.getAttribute('data-theme');
-            if (currentTheme === 'dark') {
-                html.setAttribute('data-theme', 'light');
+        function actualizarSaludo() {
+            const hora = new Date().getHours();
+            let saludo = "¡Bienvenido a mi espacio tecnológico!";
+            if (hora >= 6 && hora < 12) {
+                saludo = "¡Buenos días! Bienvenido a mi rincón tecnológico";
+            } else if (hora >= 12 && hora < 19) {
+                saludo = "¡Buenas tardes! Bienvenido a mi rincón tecnológico";
             } else {
-                html.setAttribute('data-theme', 'dark');
+                saludo = "¡Buenas noches! Programando bajo las estrellas";
             }
+            document.getElementById("saludo-dinamico").textContent = saludo;
         }
 
-        // Control de pestañas
-        function switchTab(tab) {
-            document.getElementById('view-tools').classList.remove('active');
-            document.getElementById('view-about').classList.remove('active');
-            document.getElementById('nav-tools').classList.remove('active');
-            document.getElementById('nav-about').classList.remove('active');
-
-            if (tab === 'tools') {
-                document.getElementById('view-tools').classList.add('active');
-                document.getElementById('nav-tools').classList.add('active');
-            } else if (tab === 'about') {
-                document.getElementById('view-about').classList.add('active');
-                document.getElementById('nav-about').classList.add('active');
-            }
+        function actualizarReloj() {
+            const ahora = new Date();
+            document.getElementById("reloj").textContent = ahora.toLocaleTimeString();
         }
 
-        // Lógica de Binario y Morse
-        const morseCodeMap = {
-            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
-            'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
-            'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
-            'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
-            'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
-            '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
-            '8': '---..', '9': '----.', ' ': '/'
-        };
-
-        function convertirTodo() {
-            let texto = document.getElementById('inputText').value;
-            let binario = '';
-            for (let i = 0; i < texto.length; i++) {
-                binario += texto[i].charCodeAt(0).toString(2).padStart(8, '0') + ' ';
-            }
-            document.getElementById('binaryOutput').innerText = binario.trim();
-
-            let morse = '';
-            let upperText = texto.toUpperCase();
-            for (let i = 0; i < upperText.length; i++) {
-                let char = upperText[i];
-                if (morseCodeMap[char]) {
-                    morse += morseCodeMap[char] + ' ';
-                } else {
-                    morse += char + ' ';
-                }
-            }
-            document.getElementById('morseOutput').innerText = morse.trim();
-        }
-
-        // Lógica de Contador de Texto
-        function contarTexto() {
-            let texto = document.getElementById('counterText').value.trim();
-            let caracteres = texto.length;
-            let palabras = texto === '' ? 0 : texto.split(/\s+/).length;
-            
-            document.getElementById('wordCount').innerText = `Palabras: ${palabras}`;
-            document.getElementById('charCount').innerText = `Caracteres: ${caracteres}`;
-        }
-
-        // Lógica de Generador de Contraseñas
-        function generarPassword() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!";
-            let password = "";
-            for (let i = 0; i < 12; i++) {
-                password += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            document.getElementById('passwordOutput').innerText = password;
-        }
+        actualizarSaludo();
+        setInterval(actualizarReloj, 1000);
     </script>
-
 </body>
 </html>
-            border: 1px dashed var(--accent);
-            padding: 10px;
-            margin-top: 5px;
-            border-radius: 6px;
-            word-break: break-all;
-            min-height: 30px;
-            color: var(--accent);
-            font-family: monospace;
-        }
-        .btn-action {
-            background-color: var(--accent);
-            color: var(--bg-main);
-            border: none;
-            padding: 10px 15px;
-            margin-top: 12px;
-            border-radius: 6px;
-            font-weight: bold;
-            cursor: pointer;
-            width: 100%;
-            transition: background-color 0.2s;
-        }
-        .btn-action:hover {
-            background-color: var(--accent-hover);
-        }
-        .stats {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 8px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-        footer {
-            margin-top: auto;
-            padding: 15px;
-            text-align: center;
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            border-top: 1px solid var(--border);
-            width: 100%;
-        }
-    </style>
-</head>
-<body>
 
-    <header>
-        <h1>El Rincón de las Esquinas</h1>
-        <nav>
-            <button id="nav-tools" class="active" onclick="switchTab('tools')">Herramientas</button>
-            <button id="nav-about" onclick="switchTab('about')">Sobre el Proyecto</button>
-        </nav>
-    </header>
-
-    <div class="main-container">
-
-        <!-- VISTA 1: HERRAMIENTAS -->
-        <div id="view-tools" class="section-view active">
-            
-            <!-- Conversor Binario / Morse -->
-            <div class="card">
-                <h2>Conversor: Binario y Morse</h2>
-                <label for="inputText">Escribe tu texto:</label>
-                <textarea id="inputText" rows="2" placeholder="Escribe algo..." oninput="convertirTodo()"></textarea>
-
-                <label>Binario:</label>
-                <div id="binaryOutput" class="output"></div>
-
-                <label>Código Morse:</label>
-                <div id="morseOutput" class="output"></div>
-            </div>
-
-            <!-- Contador de Texto -->
-            <div class="card">
-                <h2>Contador de Texto</h2>
-                <label for="counterText">Párrafo de análisis:</label>
-                <textarea id="counterText" rows="2" placeholder="Escribe para contar..." oninput="contarTexto()"></textarea>
-                <div class="stats">
-                    <span id="wordCount">Palabras: 0</span>
-                    <span id="charCount">Caracteres: 0</span>
-                </div>
-            </div>
-
-            <!-- Generador de Contraseñas -->
-            <div class="card">
-                <h2>Generador de Contraseñas</h2>
-                <button class="btn-action" onclick="generarPassword()">Generar Contraseña Segura</button>
-                <label>Resultado:</label>
-                <div id="passwordOutput" class="output">Haz clic en el botón</div>
-            </div>
-
-        </div>
-
-        <!-- VISTA 2: SOBRE EL PROYECTO -->
-        <div id="view-about" class="section-view">
-            <div class="card">
-                <h2>Acerca de esta iniciativa</h2>
-                <p>Este espacio digital forma parte de <strong>El Rincón de las Esquinas</strong>, un proyecto enfocado en la construcción de páginas web, aprendizaje de tecnología, programación y la compartición de ideas útiles.</p>
-                <p>Desarrollado y optimizado directamente mediante herramientas modernas y despliegue continuo en la nube.</p>
-            </div>
-        </div>
-
-    </div>
-
-    <footer>
-        &copy; 2026 El Rincón de las Esquinas. Todos los derechos reservados.
-    </footer>
-
-    <script>
-        // Control de pestañas (Navegación)
-        function switchTab(tab) {
-            document.getElementById('view-tools').classList.remove('active');
-            document.getElementById('view-about').classList.remove('active');
-            document.getElementById('nav-tools').classList.remove('active');
-            document.getElementById('nav-about').classList.remove('active');
-
-            if (tab === 'tools') {
-                document.getElementById('view-tools').classList.add('active');
-                document.getElementById('nav-tools').classList.add('active');
-            } else if (tab === 'about') {
-                document.getElementById('view-about').classList.add('active');
-                document.getElementById('nav-about').classList.add('active');
-            }
-        }
-
-        // Lógica de Binario y Morse
-        const morseCodeMap = {
-            'A': '.-', 'B': '-...', 'C': '-.-.', 'D': '-..', 'E': '.', 'F': '..-.',
-            'G': '--.', 'H': '....', 'I': '..', 'J': '.---', 'K': '-.-', 'L': '.-..',
-            'M': '--', 'N': '-.', 'O': '---', 'P': '.--.', 'Q': '--.-', 'R': '.-.',
-            'S': '...', 'T': '-', 'U': '..-', 'V': '...-', 'W': '.--', 'X': '-..-',
-            'Y': '-.--', 'Z': '--..', '0': '-----', '1': '.----', '2': '..---',
-            '3': '...--', '4': '....-', '5': '.....', '6': '-....', '7': '--...',
-            '8': '---..', '9': '----.', ' ': '/'
-        };
-
-        function convertirTodo() {
-            let texto = document.getElementById('inputText').value;
-            let binario = '';
-            for (let i = 0; i < texto.length; i++) {
-                binario += texto[i].charCodeAt(0).toString(2).padStart(8, '0') + ' ';
-            }
-            document.getElementById('binaryOutput').innerText = binario.trim();
-
-            let morse = '';
-            let upperText = texto.toUpperCase();
-            for (let i = 0; i < upperText.length; i++) {
-                let char = upperText[i];
-                if (morseCodeMap[char]) {
-                    morse += morseCodeMap[char] + ' ';
-                } else {
-                    morse += char + ' ';
-                }
-            }
-            document.getElementById('morseOutput').innerText = morse.trim();
-        }
-
-        // Lógica de Contador de Palabras
-        function contarTexto() {
-            let texto = document.getElementById('counterText').value.trim();
-            let caracteres = texto.length;
-            let palabras = texto === '' ? 0 : texto.split(/\s+/).length;
-            
-            document.getElementById('wordCount').innerText = `Palabras: ${palabras}`;
-            document.getElementById('charCount').innerText = `Caracteres: ${caracteres}`;
-        }
-
-        // Lógica de Generador de Contraseñas
-        function generarPassword() {
-            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789@#$!";
-            let password = "";
-            for (let i = 0; i < 12; i++) {
-                password += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            document.getElementById('passwordOutput').innerText = password;
-        }
-    </script>
-
-</body>
-    </html>
-    
